@@ -22,7 +22,7 @@ COPY prisma ./prisma
 COPY prisma.config.ts ./
 
 # Generate Prisma Client (set dummy DATABASE_URL for build)
-ENV DATABASE_URL="file:./data/uneventful.db"
+ENV DATABASE_URL="file:./data/db.db"
 RUN npx prisma generate
 
 # Build the server first (compile TypeScript to JavaScript -> build/)
@@ -43,14 +43,14 @@ ARG BUILD_DATE
 ARG VCS_REF
 
 # OCI standard labels
-LABEL org.opencontainers.image.title="uneventful"
+LABEL org.opencontainers.image.title="TEMPLATE_REPLACEME"
 LABEL org.opencontainers.image.description="Event management application with form-driven workflows and automated SMS reminders"
 LABEL org.opencontainers.image.version="${VERSION}"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.revision="${VCS_REF}"
 LABEL org.opencontainers.image.authors="Julian Hartline <https://www.julianhartline.com>"
-LABEL org.opencontainers.image.url="https://hub.docker.com/repository/docker/julianh2o/uneventful"
-LABEL org.opencontainers.image.source="https://github.com/julianh2o/uneventful"
+LABEL org.opencontainers.image.url="https://hub.docker.com/repository/docker/julianh2o/TEMPLATE_REPLACEME"
+LABEL org.opencontainers.image.source="https://github.com/julianh2o/TEMPLATE_REPLACEME"
 
 # Install OpenSSL for Prisma
 RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
@@ -73,7 +73,7 @@ COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 # Set dummy DATABASE_URL for runtime
-ENV DATABASE_URL="file:./data/uneventful.db"
+ENV DATABASE_URL="file:./data/db.db"
 
 # Copy entire build directory from builder stage
 # This contains: compiled server code, frontend (in public/), and config files

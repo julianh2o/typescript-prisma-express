@@ -45,7 +45,7 @@ This is a minimal application template built with a React/TypeScript frontend an
 
 **Database:**
 - SQLite via Prisma
-- Location: `data/uneventful.db` (configured in `.env`)
+- Location: `data/db.db` (configured in `.env`)
 - Schema: `prisma/schema.prisma` (currently empty, ready for your models)
 - Configuration: `prisma.config.ts` (Prisma 7 format)
 
@@ -68,7 +68,7 @@ This is a minimal application template built with a React/TypeScript frontend an
 **Environment Variables (.env):**
 ```
 PORT=2999                   # Optional, defaults to 2999
-DATABASE_URL=...            # SQLite file path (e.g., "file:./data/uneventful.db")
+DATABASE_URL=...            # SQLite file path (e.g., "file:./data/db.db")
 ```
 
 **Twilio and JWT Configuration (Optional):**
@@ -130,7 +130,7 @@ template-app/
 ├── prisma/                # Database
 │   └── schema.prisma      # Schema definition
 ├── data/                  # Runtime data
-│   └── uneventful.db      # SQLite database (created on first run)
+│   └── db.db      # SQLite database (created on first run)
 ├── build/                 # Production build output
 │   ├── public/            # Built frontend
 │   └── *.js               # Built backend

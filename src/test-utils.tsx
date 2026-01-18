@@ -1,70 +1,30 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { vi } from 'vitest';
-import { AuthContext } from './contexts/AuthContext';
-import { AuthUser } from './services/authService';
-
-/**
- * Mock user for testing
- */
-export const createMockUser = (overrides?: Partial<AuthUser>): AuthUser => {
-	return {
-		id: 'test-user-id',
-		name: 'Test User',
-		phone: '+15555551234',
-		...overrides,
-	};
-};
-
-/**
- * Mock AuthContext provider for testing
- */
-interface MockAuthProviderProps {
-	children: ReactNode;
-	user?: AuthUser | null;
-	loading?: boolean;
-	login?: (user: AuthUser, token: string) => void;
-	logout?: () => void;
-	refreshUser?: () => Promise<void>;
-}
-
-export const MockAuthProvider: React.FC<MockAuthProviderProps> = ({
-	children,
-	user = null,
-	loading = false,
-	login = vi.fn(),
-	logout = vi.fn(),
-	refreshUser = vi.fn().mockResolvedValue(undefined),
-}) => {
-	return <AuthContext.Provider value={{ user, loading, login, logout, refreshUser }}>{children}</AuthContext.Provider>;
-};
 
 /**
  * Options for renderWithProviders
  */
 interface RenderWithProvidersOptions extends Omit<RenderOptions, 'wrapper'> {
-	user?: AuthUser | null;
-	loading?: boolean;
 	initialRoute?: string;
 }
 
 /**
- * Renders a component with all necessary providers (Router + Auth)
+ * Renders a component with all necessary providers (Router + Helmet)
  */
 export const renderWithProviders = (
 	ui: ReactElement,
-	{ user = null, loading = false, initialRoute = '/', ...renderOptions }: RenderWithProvidersOptions = {},
+	{ initialRoute = '/', ...renderOptions }: RenderWithProvidersOptions = {},
 ) => {
 	window.history.pushState({}, 'Test page', initialRoute);
 
 	const Wrapper = ({ children }: { children: ReactNode }) => {
 		return (
-			<BrowserRouter>
-				<MockAuthProvider user={user} loading={loading}>
-					{children}
-				</MockAuthProvider>
-			</BrowserRouter>
+			<HelmetProvider>
+				<BrowserRouter>{children}</BrowserRouter>
+			</HelmetProvider>
 		);
 	};
 
@@ -72,7 +32,7 @@ export const renderWithProviders = (
 };
 
 /**
- * Renders a component with just the Router (no Auth)
+ * Renders a component with just the Router (no other providers)
  */
 export const renderWithRouter = (
 	ui: ReactElement,
