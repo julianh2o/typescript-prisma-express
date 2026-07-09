@@ -1,4 +1,6 @@
 # TEMPLATE_REPLACEME
 
-* Tracking volunteer positions and using it to determine invite privileges 
-* Invitation management sending (viral invitations and sponsors)
+## Setup
+* Run `cp .env.example .env` (edit as appropriate)
+* Run `yarn` to install dependencies
+* Run `yarn dev` to run the development server (and client)
